@@ -79,6 +79,11 @@ from _config_ import _MQTT_ip
 from _config_ import _MQTT_port
 from _config_ import _MQTT_TOPIC_SUB
 from _config_ import _MQTT_TOPIC_PUB
+
+from _config_ import _MQTT_authentication
+from _config_ import _MQTT_user
+from _config_ import _MQTT_pass
+
 MQTT_MAESTRO = {}
 
 logger.info('Lancement du deamon')
@@ -148,6 +153,8 @@ def on_open(ws):
 
 logger.info('Connection en cours au broker MQTT (IP:'+_MQTT_ip + ' PORT:'+str(_MQTT_port)+')')
 client = mqtt.Client()
+if _MQTT_authentication == True:
+	client.username_pw_set(username=_MQTT_user,password=_MQTT_pass)
 client.on_connect = on_connect_mqtt
 client.on_message = on_message_mqtt
 client.connect(_MQTT_ip, _MQTT_port)
